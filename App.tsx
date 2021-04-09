@@ -3,16 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert, Button } from 'react-n
 
 export default function App() {
 
-  // interface IBoard {
-  //   place: number[][]
-  // }  
-
   const [board, setBoard] = useState<number[][]>([
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0]
   ]) // default empty board
-  const [current, setCurrent] = useState<number>(0) // default player 0 starts first
+  const [current, setCurrent] = useState<number>(1) // default player 1 starts first
   const [mounted, setMounted] = useState<boolean>(false)
 
   // setting initial board state
@@ -23,7 +19,6 @@ export default function App() {
       [0, 0, 0],
       [0, 0, 0]
     ])
-    console.log("mounted")
   }, [])
 
   // function to return icon based on player
@@ -34,9 +29,6 @@ export default function App() {
       case 1: return <Text> X </Text>
       case -1: return <Text> O </Text>
       default: return <View />
-      // case 1: return <FontAwesome name="rocket" style={ styles.tileX } />
-      // case -1: return <FontAwesome name="star" style={ styles.tileO} />;
-      // default: return <View />;
     }
   };
 
@@ -47,8 +39,10 @@ export default function App() {
       [0, 0, 0],
       [0, 0, 0]
     ])
+    setCurrent(1)
   }
-  
+
+  // function to check row, col, diagonal
   const getWinner = () => {
     const NUMTILES = 3;
     let sum;
@@ -89,31 +83,38 @@ export default function App() {
     return 0;
 
   };
-
+  
   // function to handle tile presses
   const onTilePress = (row: number, col: number) => {
     let value = board[row][col]
-    if (value !== 0) {
-      return;
-    }
-
     let currentPlayer = current;
     let arr = board.slice();
     arr[row][col] = currentPlayer;
     setBoard(arr)
 
     let nextPlayer = (currentPlayer == 1) ? -1 : 1;
-    setCurrent(nextPlayer);
+    let winner = getWinner();
 
-
-
-    return
+    // end match is winner, send to api
+    if (winner === 1) {
+      console.log("player 1 won")
+      Alert.alert("Player 1 is the winner");
+      onNewGame();
+    } else if (winner == -1) {
+      console.log("player 2 won")
+      Alert.alert("Player 2 is the winner");
+      onNewGame();
+    }
+    else {
+      // continue game
+      setCurrent(nextPlayer);
+    }
   }
 
   return (
     <View style={styles.container}>
-      <Text style={{ marginBottom: 50 }}> Tic Tac Toe </Text>
-
+      <Text style={{ marginBottom: 50, fontSize: 20 }}> Tic Tac Toe </Text>
+      <Text style={{ marginBottom: 50, fontSize: 20 }}> Current player: {current === 1 ? 1 : 2} </Text>
       {/* row 1 */}
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity onPress={() => onTilePress(0, 0)} style={[styles.tile, { borderLeftWidth: 0, borderTopWidth: 0 }]}>
@@ -153,7 +154,7 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      {/* <Button title="Nuevo Juego" onPress={onNewGame} style={styles.btn} /> */}
+      {/* <Button title="New" onPress={onNewGame} style={styles.btn} /> */}
     </View>
   );
 }

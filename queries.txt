@@ -1,0 +1,36 @@
+query getGame {
+  getGame(uid: "34") {
+    date
+    moves1
+    moves2
+    uid
+    winner
+    board
+  }
+}
+
+mutation MyMutation {
+  addGame(board: [[0, 0, 0], [0, 0, 0]], date: "TESTDATE2", uid: "TEST2") {
+    uid
+    moves2
+    moves1
+    date
+    board
+  }
+}
+
+mutation updateGame {
+  updateGame(
+    uid:"123"
+    winner: "A new winner"
+    board: [[1,-1,1],[1,-1,1],[-1,1,-1]]
+    moves1: ["00", "01", "02", "10", "11", "12", "21", "22", "23"]
+    moves2: [1,-1,1,-1,1,-1,1,-1]
+  ) {
+		winner,
+    board,
+    moves1,
+    moves2,
+    uid
+  }
+}

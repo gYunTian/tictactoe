@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Button } from 'react-native';
 
-export const Board = () => {
+export const Board = ({ uid, navigation }) => {
+
   const [board, setBoard] = useState<number[][]>([
     [0, 0, 0],
     [0, 0, 0],
@@ -18,6 +19,11 @@ export const Board = () => {
       [0, 0, 0],
       [0, 0, 0]
     ])
+
+    return () => {
+      // Anything in here is fired on component unmount.
+      console.log("unmounted")
+    }
   }, [])
 
   // function to return icon based on player
@@ -33,12 +39,14 @@ export const Board = () => {
 
   // function to reset board
   const onNewGame = () => {
+    console.log("in")
     setBoard([
       [0, 0, 0],
       [0, 0, 0],
       [0, 0, 0]
     ])
     setCurrent(1)
+    navigation.navigate('Home')
   }
 
   // function to check row, col, diagonal
@@ -96,6 +104,7 @@ export const Board = () => {
 
     // end match is winner, send to api
     if (winner === 1) {
+
       console.log("player 1 won")
       Alert.alert("Player 1 is the winner");
       onNewGame();
@@ -112,8 +121,9 @@ export const Board = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ marginBottom: 50, fontSize: 20 }}> Tic Tac Toe </Text>
-      <Text style={{ marginBottom: 50, fontSize: 20 }}> Current player: {current === 1 ? 1 : 2} </Text>
+      <Text style={{ marginBottom: 30, fontSize: 20 }}> Tic Tac Toe </Text>
+      <Text style={{ marginBottom: 10, fontSize: 12 }} selectable> {uid} </Text>
+      <Text style={{ marginBottom: 30, fontSize: 20 }}> Current player's turn: {current === 1 ? 1 : 2} </Text>
       {/* row 1 */}
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity onPress={() => onTilePress(0, 0)} style={[styles.tile, { borderLeftWidth: 0, borderTopWidth: 0 }]}>
@@ -183,11 +193,4 @@ const styles = StyleSheet.create({
     color: "green",
     fontSize: 50
   },
-
-  btn: {
-    marginTop: 20,
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 20
-  }
 });

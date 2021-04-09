@@ -1,0 +1,15 @@
+{
+  "mobile": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tictactoe-mobile-212213-authRole",
+      "UnauthRoleArn": "arn:aws:iam::089941825711:role/amplify-tictactoe-mobile-212213-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::089941825711:role/amplify-tictactoe-mobile-212213-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-tictactoe-mobile-212213-deployment",
+      "UnauthRoleName": "amplify-tictactoe-mobile-212213-unauthRole",
+      "StackName": "amplify-tictactoe-mobile-212213",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:089941825711:stack/amplify-tictactoe-mobile-212213/9e765150-9936-11eb-b3ac-06b3e587ec94",
+      "AmplifyAppId": "dk0et8mank6wu"
+    }
+  }
+}

@@ -99,5 +99,5 @@ Secondly, I am rusty in typescript. I haven used it in a long while since I last
 
 Please understand that I am extremely busy, this app took me 2 days to develop and there are still many bugs remaining, though the main requirements are met.
 
-I completed development on Sunday, 11 April 2021. ~ 12 PM to 1 AM. Since I completed early (deadline is 15 April) though with many bugs, please at least give me credit for that
+I completed development on Sunday, 11 April 2021. ~ 12 PM to 1 AM. Since I completed early (deadline is 15 April) though with many bugs, please at least give me some credit for that
 

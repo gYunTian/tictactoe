@@ -1,0 +1,40 @@
+type Game {
+	uid: String
+	date: String
+	winner: String
+	board: [[Int]]
+	moves1: [String]
+	moves2: [Int]
+}
+
+type Mutation {
+	updateGame(
+		uid: String,
+		winner: String,
+		board: [[Int]],
+		moves1: [String],
+		moves2: [Int]
+	): Game
+	addGame(
+		uid: String,
+		date: String,
+		board: [[Int]],
+		moves1: [String],
+		moves2: [Int]
+	): Game
+}
+
+type Query {
+	getGame(uid: String): Game
+}
+
+type Subscription {
+	updatedGame(uid: String): Game
+		@aws_subscribe(mutations: ["updateGame"])
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
+}

@@ -4,11 +4,15 @@
 
 export const updateGame = /* GraphQL */ `
   mutation UpdateGame(
-		$uid: String,
-		$winner: String,
-		$board: [[Int]],
-		$moves1: [String],
-		$moves2: [Int]
+    $uid: String
+    $winner: String
+    $board: [[Int]]
+    $moves1: [String]
+    $moves2: [Int]
+    $status: String
+    $turn: Int
+    $player1: Boolean
+    $player2: Boolean
   ) {
     updateGame(
       uid: $uid
@@ -16,6 +20,10 @@ export const updateGame = /* GraphQL */ `
       board: $board
       moves1: $moves1
       moves2: $moves2
+      status: $status
+      turn: $turn
+      player1: $player1
+      player2: $player2
     ) {
       uid
       date
@@ -23,16 +31,24 @@ export const updateGame = /* GraphQL */ `
       board
       moves1
       moves2
+      status
+      turn
+      player1
+      player2
     }
   }
 `;
 export const addGame = /* GraphQL */ `
   mutation AddGame(
-		$uid: String,
-		$date: String,
-		$board: [[Int]],
-		$moves1: [String],
-		$moves2: [Int]
+    $uid: String
+    $date: String
+    $board: [[Int]]
+    $moves1: [String]
+    $moves2: [Int]
+    $status: String
+    $turn: Int
+    $player1: Boolean
+    $player2: Boolean
   ) {
     addGame(
       uid: $uid
@@ -40,6 +56,10 @@ export const addGame = /* GraphQL */ `
       board: $board
       moves1: $moves1
       moves2: $moves2
+      status: $status
+      turn: $turn
+      player1: $player1
+      player2: $player2
     ) {
       uid
       date
@@ -47,6 +67,10 @@ export const addGame = /* GraphQL */ `
       board
       moves1
       moves2
+      status
+      turn
+      player1
+      player2
     }
   }
 `;

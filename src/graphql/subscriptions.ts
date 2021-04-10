@@ -11,6 +11,10 @@ export const updatedGame = /* GraphQL */ `
       board
       moves1
       moves2
+      status
+      turn
+      player1
+      player2
     }
   }
 `;

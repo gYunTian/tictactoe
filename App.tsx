@@ -2,80 +2,53 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Button, TextInput } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import Game from './src/navigation/Game'
-import * as mutations from './src/graphql/mutations';
-import * as queries from './src/graphql/queries';
 
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
+
+import GetData from './src/service/GetData'
+import CreateGame from './src/service/CreateGame'
+import myAppConfig from './aws-export'
+import Game from './src/navigation/Game'
 // import Front from './src/navigation/Front'
 
 const { v4: uuidv4 } = require('uuid');
 const Stack = createStackNavigator();
 
-const myAppConfig = {
-  'aws_appsync_graphqlEndpoint': 'https://xh65au3w3vhwxnodlcte47i3k4.appsync-api.ap-southeast-1.amazonaws.com/graphql',
-  'aws_appsync_region': 'ap-southeast-1',
-  'aws_appsync_authenticationType': 'API_KEY',
-  'aws_appsync_apiKey': 'da2-fcthhiuknrga7l6dc2ajm7cuzq',
-}
-
 Amplify.configure(myAppConfig);
 
-const getData = async (uid: String) => {
-  const data = await API.graphql({ query: queries.getGame, variables: { "uid": uid } });
-  if (data.data.getGame === null) {
-    return 0
-  }
-  else {
-    console.log("fetched data")
-    return data.data.getGame
-  }
-}
-
-const createGame = async (uid: String, date: String, board: number[][]) => {
-  const createdGame = await API.graphql({
-    query: mutations.addGame, variables: {
-      "uid": uid,
-      "date": date,
-      "board": board
-    }
-  });
-  console.log("created game")
-  // console.log(createdGame)
-}
-
-const setUpNewSession = () => {
+/*
+* Function to setup new game session 
+*/
+const setUpNewSession = (_callback) => {
   console.log("creating new game session")
   let data = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
   let date = JSON.stringify(new Date())
   let uid = uuidv4()
 
-  console.log("Creating new game")
-  createGame(uid, date, data)
+  // let game = CreateGame("new", date, data)
   console.log("New game created: " + uid)
-
-  return uid
+  _callback()
 }
 
+/*
+* Home screen, landing page
+*/
 const HomeScreen = ({ navigation }) => {
-  // getData()
-
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button
         title="Create new Game"
         onPress={() => {
-          let uid = setUpNewSession()
-
-          navigation.navigate('Game', {
-            uid: uid
+          let uid = setUpNewSession(function () {
+            navigation.navigate('Game', { uid: "new", navigation: navigation }) // game created by player 1
           })
+          
         }}
       />
       <Separator />
       <Button
         title="Join existing Game"
-        onPress={() => navigation.navigate('Game')}
+        onPress={() => navigation.navigate('Join')}
       />
       <Separator />
       <Button
@@ -86,6 +59,9 @@ const HomeScreen = ({ navigation }) => {
   );
 }
 
+/*
+* Game screen, tic tac toe page
+*/
 const GameScreen = ({ route, navigation }) => {
   const { uid } = route.params;
   return (
@@ -93,12 +69,54 @@ const GameScreen = ({ route, navigation }) => {
   );
 }
 
+/*
+* Join screen, join existing game page
+*/
+const JoinScreen = ({ route, navigation }) => {
+  const [inputText, setInputText] = useState<String>("")
+  const [data, setData] = useState<any>(0)
+  const [show, setShow] = useState<Boolean>(false)
+
+  const dataComp = async (inputText: any) => {
+    let details = await GetData(inputText)
+    if (details.uid == inputText) {
+      console.log("found game!")
+      navigation.navigate('Game', { uid: "new", navigation: navigation })
+    }
+    else {
+      setShow(true)
+    }
+  }
+
+  return (
+    <View>
+      <Text>{show ? "Cannot find game" : ""}</Text>
+      <TextInput
+        style={styles.input}
+        placeholder=" Join by game id"
+        returnKeyLabel={"next"}
+        onChangeText={(text) => setInputText(text)}
+      />
+      <Button
+        title="Join game"
+        onPress={() => {
+          console.log("Joining game")
+          dataComp(inputText)
+        }}
+      />
+    </View>
+  );
+}
+
+/*
+* History screen, search history page
+*/
 const HistoryScreen = ({ route, navigation }) => {
   const [inputText, setInputText] = useState<String>("")
   const [data, setData] = useState<any>(0)
 
   const dataComp = async (inputText: any) => {
-    let details = await getData(inputText)
+    let details = await GetData(inputText)
     setData(details)
   }
 
@@ -108,10 +126,13 @@ const HistoryScreen = ({ route, navigation }) => {
       {data !== 0 ? (
         <View>
           <Text>Game ID: {data.uid}</Text>
+          <Text>Date: {data.date}</Text>
           <Text>Winner: {data.winner}</Text>
           <Text>Final board: {data.board}</Text>
           <Text>Moves in sequence: {data.moves1}</Text>
           <Text>Player turns in sequence: {data.moves2}</Text>
+          <Text>Game Status: {data.status}</Text>
+          <Text>Last turn: Player {data.turn}</Text>
         </View>
 
       ) : <Text>No data</Text>}
@@ -132,16 +153,15 @@ const HistoryScreen = ({ route, navigation }) => {
   );
 }
 
+// main app
 export default function App() {
-
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-
-        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Game" component={GameScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Join" component={JoinScreen} />
         <Stack.Screen name="History" component={HistoryScreen} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -26,11 +26,55 @@ mutation updateGame {
     board: [[1,-1,1],[1,-1,1],[-1,1,-1]]
     moves1: ["00", "01", "02", "10", "11", "12", "21", "22", "23"]
     moves2: [1,-1,1,-1,1,-1,1,-1]
+    status: "status"
+    turn: 1
+    date: "today"
   ) {
-		winner,
+    winner,
     board,
     moves1,
     moves2,
     uid
   }
+}
+
+const postData = async () => {
+  const createdGame = await API.graphql({ query: mutations.addGame, variables: {
+    "uid": "tester",
+    "date": "tester",
+    "board": [[1,2,3],[4,5,6]],
+    "moves1": ["00", "01", "02", "10", "11", "12", "21", "22", "23"],
+    "moves2": [1,-1,1,-1,1,-1,1,-1]
+  }});
+  console.log("created game")
+  console.log(createdGame)
+}
+
+
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key" : {
+        "uid" : $util.dynamodb.toDynamoDBJson($context.arguments.uid)
+    },
+    "update" : {
+        "expression" : "SET winner = :winner, board = :board, moves1 = :moves1, moves2 = :moves2"
+        "expressionValues": {
+            ":winner" : $util.dynamodb.toDynamoDBJson($context.arguments.winner),
+            ":board" : $util.dynamodb.toDynamoDBJson($context.arguments.board),
+            ":moves1" : $util.dynamodb.toDynamoDBJson($context.arguments.moves1),
+            ":moves2" : $util.dynamodb.toDynamoDBJson($context.arguments.moves2)
+        }
+    }
+}
+
+subscription MySubscription {
+    updatedGame(uid: "123") {
+			board,
+    	date,
+    	moves1,
+    	moves2,
+    	uid,
+    	winner
+    }
 }

@@ -5,6 +5,10 @@ type Game {
 	board: [[Int]]
 	moves1: [String]
 	moves2: [Int]
+	status: String,
+	turn: Int,
+	player1: Boolean,
+	player2: Boolean
 }
 
 type Mutation {
@@ -13,14 +17,22 @@ type Mutation {
 		winner: String,
 		board: [[Int]],
 		moves1: [String],
-		moves2: [Int]
+		moves2: [Int],
+		status: String,
+		turn: Int,
+		player1: Boolean,
+		player2: Boolean
 	): Game
 	addGame(
 		uid: String,
 		date: String,
 		board: [[Int]],
 		moves1: [String],
-		moves2: [Int]
+		moves2: [Int],
+		status: String,
+		turn: Int,
+		player1: Boolean,
+		player2: Boolean
 	): Game
 }
 

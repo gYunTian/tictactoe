@@ -78,7 +78,7 @@ All backend services are deployed on AWS using my personal account, so please do
 
 ## ASSUMPTIONS
 1) no need give deliver an app that is free of bug, as long as it works
-2) i can use any directory layout i want, coding style
+2) i can use any directory layout i want, coding styles, though i tried to mimic some of the directory structure from your github link
 3) i can use my browser as emulator instead of mobile phones
 
 

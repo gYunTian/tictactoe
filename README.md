@@ -93,6 +93,8 @@ I simply have no time to fix them since I have an upcoming certificate test and 
 6) If all 8 cells are filled and no winner yet, game does not end and players can still overclick the filled cells
 
 ## Final
+I wanted to use phone simulators on my machine, but didnt have time to set it up + ssd space running low
+
 I actually didnt realize that this role I applied for requires react native. I know react so when I saw the project, I was shocked and had to quickly learn react native.
 Therefore, some of the codes are copy and pasted from the internet.
 Secondly, I am rusty in typescript. I haven used it in a long while since I last learnt it by watching videos. Nonetheless, I used to to enforce data types.

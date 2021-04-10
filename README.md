@@ -1,4 +1,4 @@
-Video link: https://youtu.be/ozhVf4MDPFY
+Video link: https://youtu.be/yEK1bqeyXIc
 
 ## How to setup
 1) go to a folder, run git clone https://github.com/gYunTian/tictactoe.git

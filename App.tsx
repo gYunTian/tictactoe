@@ -42,7 +42,7 @@ const HomeScreen = ({ navigation }) => {
           let uid = setUpNewSession(function () {
             navigation.navigate('Game', { uid: "new", navigation: navigation }) // game created by player 1
           })
-          
+
         }}
       />
       <Separator />

@@ -1,3 +1,3 @@
-import { Board } from '../components/Board';
+import { Board1 } from '../components/Board/Board1';
 
-export default Board;
+export default Board1;

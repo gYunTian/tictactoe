@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Button } from 'react-native'
-import Winner from '../util/Winner'
+import Winner from '../../util/Winner'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import * as subscriptions from '../../src/graphql/subscriptions'
-import UpdateGame from '../service/UpdateGame'
-import GetData from '../service/GetData'
+import * as subscriptions from '../../graphql/subscriptions'
+import UpdateGame from '../../service/UpdateGame'
+import GetData from '../../service/GetData'
 
-export const Board = ({ uid, navigation }) => {
+export const Board1 = ({ uid, navigation }) => {
 
   const [board, setBoard] = useState<number[][]>([
     [0, 0, 0],
@@ -30,11 +30,13 @@ export const Board = ({ uid, navigation }) => {
     setStatus(data.value.data.updatedGame.status)
     setMoves1(data.value.data.updatedGame.moves1)
     setCurrent(data.value.data.turn)
+    setMoves2(data.value.data.moves2)
+    setPlayer1(data.value.data.player1)
+    setPlayer2(data.value.data.player2)
   };
 
   // setting initial board state
   useEffect(() => {
-    console.log("sub")
     setMounted(true)
     const subscription = API.graphql(
       graphqlOperation(subscriptions.updatedGame, {
@@ -52,30 +54,12 @@ export const Board = ({ uid, navigation }) => {
     }
   }, [])
 
-  // function to return icon based on player
-  // const renderIcon = (row: number, col: number) => {
-  //   const value = board[row][col]
-
-  //   switch (value) {
-  //     case 1: return <Text> X </Text>
-  //     case -1: return <Text> O </Text>
-  //     default: return <View />
-  //   }
-  // };
-
   // function to reset board
-  const gameOver = () => {
-    setStatus("Game ended")
-    console.log("game ended")
-    // setBoard([
-    //   [0, 0, 0],
-    //   [0, 0, 0],
-    //   [0, 0, 0]
-    // ])
-    // setCurrent(1)
-    // navigation.navigate('Home')
+  const gameOver = (winner: number) => {
+    setStatus("Game ended - player "+winner+" won")
+    setDisabled(true)
   }
-
+  
   // function to call Winner util function
   const getWinner = () => {
     return Winner(board, 3)
@@ -98,24 +82,17 @@ export const Board = ({ uid, navigation }) => {
     let winner = getWinner();
 
     // end match is winner, send to api
-    if (winner === 1) {
-      console.log("player 1 won")
-      Alert.alert("Player 1 is the winner");
-    } else if (winner == -1) {
-      console.log("player 2 won")
-      Alert.alert("Player 2 is the winner");
-    }
-    else {
+    if (winner === 0 ) {
       setCurrent(nextPlayer);
       return
     }
 
-    if (moves2.length == 0) {
-      moves2.push(currentPlayer == 1 ? 1 : 2)
-    }
+    // if (moves2.length == 0) {
+    //   moves2.push(currentPlayer == 1 ? 1 : 2)
+    // }
 
     updateState(moves1, moves2, board, winner, game_id)
-    gameOver();
+    gameOver(winner);
   }
 
   return (

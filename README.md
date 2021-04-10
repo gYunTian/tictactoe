@@ -1,5 +1,5 @@
-Video link: https://youtu.be/yEK1bqeyXIc
-Expo dl link: https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40ganyuntian/tictactoe-846183963a95470c87a5dbf64f29225d-signed.aab
+#Video link: https://youtu.be/yEK1bqeyXIc
+#Expo dl link: https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40ganyuntian/tictactoe-846183963a95470c87a5dbf64f29225d-signed.aab
 
 ## How to setup
 1) go to a folder, run git clone https://github.com/gYunTian/tictactoe.git

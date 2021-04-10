@@ -10,6 +10,8 @@ export const Board = ({ uid, navigation }) => {
   ]) // default empty board
   const [current, setCurrent] = useState<number>(1) // default player 1 starts first
   const [mounted, setMounted] = useState<boolean>(false)
+  const [moves1, setMoves1] = useState<String[]>([])
+  const [game_id, setUID] = useState<String>(uid)
 
   // setting initial board state
   useEffect(() => {
@@ -86,11 +88,24 @@ export const Board = ({ uid, navigation }) => {
     } else if (sum == -3) {
       return -1;
     }
-
     return 0;
-
   };
 
+  const updateState = (moves1: String[], moves2: number[], board: number[][], winner: number, uid: String) => {
+    let data2 = JSON.stringify(board)
+    fetch('https://fye4dz6dzvgrha6ck5mipmntlm.appsync-api.ap-southeast-1.amazonaws.com/graphql', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        "x-api-key": "da2-lhfwjanaifahzm7epzyq2y6hsm",
+      },
+      body: JSON.stringify({
+        query: "mutation updateGame {\n  updateGame(\n    uid:\""+uid+"\"\n    winner: \""+winner+"\"\n    board: "+data2+"\n    moves1: "+moves1+"\n    moves2: "+moves2+"\n  ) {\n\t\twinner,\n    board,\n    moves1,\n    moves2,\n    uid\n  }\n}"
+      })
+    });
+  }
+  
   // function to handle tile presses
   const onTilePress = (row: number, col: number) => {
     let value = board[row][col]
@@ -98,6 +113,8 @@ export const Board = ({ uid, navigation }) => {
     let arr = board.slice();
     arr[row][col] = currentPlayer;
     setBoard(arr)
+
+    // update db
 
     let nextPlayer = (currentPlayer == 1) ? -1 : 1;
     let winner = getWinner();
@@ -107,22 +124,25 @@ export const Board = ({ uid, navigation }) => {
 
       console.log("player 1 won")
       Alert.alert("Player 1 is the winner");
-      onNewGame();
     } else if (winner == -1) {
       console.log("player 2 won")
       Alert.alert("Player 2 is the winner");
-      onNewGame();
     }
     else {
       // continue game
       setCurrent(nextPlayer);
+      return
     }
+    
+    // updateState(moves1, moves2, board, winner, game_id)
+    onNewGame();
   }
 
   return (
     <View style={styles.container}>
       <Text style={{ marginBottom: 30, fontSize: 20 }}> Tic Tac Toe </Text>
       <Text style={{ marginBottom: 10, fontSize: 12 }} selectable> {uid} </Text>
+      <Text style={{ marginBottom: 30, fontSize: 20 }}> Game status: {current === 1 ? 1 : 2} </Text>
       <Text style={{ marginBottom: 30, fontSize: 20 }}> Current player's turn: {current === 1 ? 1 : 2} </Text>
       {/* row 1 */}
       <View style={{ flexDirection: "row" }}>

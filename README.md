@@ -88,6 +88,7 @@ I simply have no time to fix them since I have an upcoming certificate test and 
 3) Date displayed in game history page is null
 4) Able to view game details that are still ongoing
 5) games that stopped with no proper ending (i.e. no one won as one player left) will be left in that state
+6) If all 8 cells are filled and no winner yet, game does not end and players can still overclick the filled cells
 
 ## Final
 I actually didnt realize that this role I applied for requires react native. I know react so when I saw the project, I was shocked and had to quickly learn react native.

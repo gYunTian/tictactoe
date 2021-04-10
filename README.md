@@ -99,7 +99,7 @@ I actually didnt realize that this role I applied for requires react native. I k
 Therefore, some of the codes are copy and pasted from the internet.
 Secondly, I am rusty in typescript. I haven used it in a long while since I last learnt it by watching videos. Nonetheless, I used to to enforce data types.
 
-Please understand that I am extremely busy, this app took me 2 days to develop and there are still many bugs remaining, though the main requirements are met.
+Please understand that I am also extremely busy, this app took me 2 days to develop and there are still many bugs remaining, though the main requirements are met.
 
-I completed development on Sunday, 11 April 2021. ~ 12 PM to 1 AM. Since I completed early (deadline is 15 April) though with many bugs, please at least give me some credit for that
+I completed development on Sunday, 11 April 2021. ~ 12 PM to 1 AM. I think i completed early (deadline is 15 April) though with many bugs, but please at least give me some credit for that
 

@@ -1,0 +1,4 @@
+known bugs:
+
+can join a game that has already ended
+

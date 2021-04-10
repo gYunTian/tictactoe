@@ -9,6 +9,7 @@ import GetData from './src/service/GetData'
 import CreateGame from './src/service/CreateGame'
 import myAppConfig from './aws-export'
 import Game from './src/navigation/Game'
+import Game2 from './src/navigation/Game2'
 // import Front from './src/navigation/Front'
 
 const { v4: uuidv4 } = require('uuid');
@@ -25,9 +26,9 @@ const setUpNewSession = (_callback) => {
   let date = JSON.stringify(new Date())
   let uid = uuidv4()
 
-  // let game = CreateGame("new", date, data)
+  let game = CreateGame(uid, date, data)
   console.log("New game created: " + uid)
-  _callback()
+  _callback(uid)
 }
 
 /*
@@ -39,8 +40,8 @@ const HomeScreen = ({ navigation }) => {
       <Button
         title="Create new Game"
         onPress={() => {
-          let uid = setUpNewSession(function () {
-            navigation.navigate('Game', { uid: "new", navigation: navigation }) // game created by player 1
+          let uid = setUpNewSession(function (uid) {
+            navigation.navigate('Game', { uid: uid, navigation: navigation }) // game created by player 1
           })
 
         }}
@@ -70,6 +71,16 @@ const GameScreen = ({ route, navigation }) => {
 }
 
 /*
+* Game screen, tic tac toe page
+*/
+const GameScreen2 = ({ route, navigation }) => {
+  const { uid } = route.params;
+  return (
+    <Game2 uid={uid} navigation={navigation} />
+  );
+}
+
+/*
 * Join screen, join existing game page
 */
 const JoinScreen = ({ route, navigation }) => {
@@ -81,7 +92,7 @@ const JoinScreen = ({ route, navigation }) => {
     let details = await GetData(inputText)
     if (details.uid == inputText) {
       console.log("found game!")
-      navigation.navigate('Game', { uid: "new", navigation: navigation })
+      navigation.navigate('Game2', { uid: inputText, navigation: navigation })
     }
     else {
       setShow(true)
@@ -159,6 +170,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Game" component={GameScreen} />
+        <Stack.Screen name="Game2" component={GameScreen2} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Join" component={JoinScreen} />
         <Stack.Screen name="History" component={HistoryScreen} />

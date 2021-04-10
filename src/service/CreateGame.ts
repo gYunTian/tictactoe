@@ -5,11 +5,12 @@ const CreateGame = async (uid: String, date: String, board: number[][]) => {
   const createdGame = await API.graphql({
     query: mutations.addGame, variables: {
       "uid": uid,
-      "date": date,
+      "date": JSON.stringify(new Date()),
       "board": board,
       "player1": true,
       "player2": false,
       "turn": 1
+      // "moves2": [12121212] 
     }
   });
   console.log("created game")

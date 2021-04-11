@@ -63,8 +63,12 @@ All these APIs are Graphql based
      # image
      ![create-details](https://user-images.githubusercontent.com/54625060/114279852-3a94b580-9a69-11eb-8824-c77c20b7fb45.PNG)
       
-      
-
+4) Websocket subscription 
+   GET wss://xh65au3w3vhwxnodlcte47i3k4.appsync-realtime-api.ap-southeast-1.amazonaws.com/?header=eyJob3N0IjoieGg2NWF1M3czdmh3eG5vZGxjdGU0N2kzazQuYXBwc3luYy1hcGkuYXAtc291dGhlYXN0LTEuYW1hem9uYXdzLmNvbSIsIngtYW16LWRhdGUiOiIyMDIxMDQxMVQwODM0NDlaIiwieC1hcGkta2V5IjoiZGEyLWZjdGhoaXVrbnJnYTdsNmRjMmFqbTdjdXpxIn0=&payload=e30=
+   
+   This websocket is created through aws amplify libraries. 
+   
+   
 ## ARCHITECTURE DIAGRAM
 
 ![Untitled Diagram (5)](https://user-images.githubusercontent.com/54625060/114279184-f7851300-9a65-11eb-8133-f57f69d984c6.png)
@@ -73,20 +77,24 @@ All backend services are deployed on AWS using my personal account, so please do
 1) AWS APPSYNC - serverless API GATEWAY alternative.
    -  GraphQl based APIs
    -  Reason: it is serverless. I can use aws amplify sdk to easily create the data schema, apis etc.. within my visual studio code
-              vs lambda, lambda has a cold start - i.e. ~ 1 to 2 secs, may slow down performance
+              vs lambda, lambda has a cold start - i.e. ~ 1 to 2 secs, may slow down performance.
+              AppSync is a managed service, benefit from on demand scaling.
+              
 2) AWS DynamoDB - NOSQL datastore
    - Reason: because I need to store json type data, and differing number of variables since this app is not production ready
              no need for strong data integrity, relationships etc..
+             DynamoDB is also a managed service. Though i have set it to use provisioned capacity since it allows for free tier.
 
 ## ASSUMPTIONS
-1) no need give deliver an app that is free of bug, as long as it works
-2) i can use any directory layout i want, coding styles, though i tried to mimic some of the directory structure from your github link
-3) i can use my browser as emulator instead of mobile phones
+1) no need give deliver an app that is entirely free of bug, as long as the functional requirements are met and it works
+2) i can use any directory layout that i want, coding styles given my time constraint. At the least, i have followed some of the directory structure from your github link
+3) i can use my browser as emulator instead of mobile phones since it is an alternative.
 
 
 ## Known bugs
 these are known bugs that I am aware of
-I simply have no time to fix them since I have an upcoming certificate test and exams.
+I simply have no time to fix them since I have an upcoming certificate test on 14 April and exams from 20 April onwards.
+
 1) The players can click cells that are already clicked, i.e. player 1 clicked row 0 col 0, and player 2 can click row 0 col 0 again
 2) A player can join a game that has already ended
 3) Date displayed in game history page is null

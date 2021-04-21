@@ -1,5 +1,7 @@
 ## 2 Player Tic Tac Toe
 
+A cool tic tac toe App that supports unlimited player sessions
+
 #Video link: https://youtu.be/yEK1bqeyXIc
    
 ## ARCHITECTURE DIAGRAM

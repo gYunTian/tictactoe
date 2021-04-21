@@ -2,6 +2,8 @@
 
 A cool tic tac toe mobile App that supports unlimited player sessions
 
+API keys are invalidated
+
 # Gameplay: https://youtu.be/yEK1bqeyXIc
    
 ## ARCHITECTURE DIAGRAM

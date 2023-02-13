@@ -1,6 +1,8 @@
 ## 2 Player Tic Tac Toe
 
-A cool tic tac toe mobile App that supports unlimited player sessions
+A cool tic tac toe mobile App that supports unlimited player sessions.
+
+Originally created for an interview for GovTechs' Supply Ally
 
 API keys are invalidated
 
